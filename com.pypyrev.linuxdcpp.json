@@ -18,12 +18,13 @@
 			"name": "boost",
 			"sources": [{
 					"type": "archive",
-					"url": "https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2",
-					"sha256": "f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41"
+					"url": "https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.bz2",
+					"sha256": "6478edfe2f3305127cffe8caf73ea0176c53769f4bf1585be237eb30798c3b8e"
 				}],
 			"buildsystem": "simple",
 			"build-commands": [
-				"mv boost $CPLUS_INCLUDE_PATH"
+				"./bootstrap.sh --prefix=${FLATPAK_DEST}",
+				"./b2 -j$FLATPAK_BUILDER_N_JOBS install"
 			],
 			"cleanup": ["/include"]
 		},
@@ -36,7 +37,10 @@
 				}],
 			"buildsystem": "meson",
 			"build-options": {
-				"config-opts": ["-Dman=false"]
+				"config-opts": [
+				"-Dman=false",
+				"-Dgtk_doc=false"
+			]
 			},
 			"cleanup": ["/include"]
 		},
