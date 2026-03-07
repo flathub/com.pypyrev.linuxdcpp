@@ -1,0 +1,28 @@
+From df311768db3387b9106e14e5a5b671be91ccd221 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sabri=20=C3=9Cnal?= <yakushabb@gmail.com>
+Date: Sat, 7 Mar 2026 23:25:51 +0300
+Subject: [PATCH] Fix appdata paper cuts
+
+---
+ data/com.pypyrev.linuxdcpp.appdata.xml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/data/com.pypyrev.linuxdcpp.appdata.xml b/data/com.pypyrev.linuxdcpp.appdata.xml
+index 9f69534..5ca59c9 100644
+--- a/data/com.pypyrev.linuxdcpp.appdata.xml
++++ b/data/com.pypyrev.linuxdcpp.appdata.xml
+@@ -5,7 +5,10 @@
+ 	<name>LinuxDC++</name>
+ 	<summary>A file-sharing client for the Direct Connect network</summary>
+ 	<url type="homepage">http://pypyrev.com/linuxdcpp-packages</url>
+-  
++  <developer id="com.pypyrev">
++    <name>Sergey Pypyrev</name>
++  </developer>
++
+ 	<metadata_license>FSFAP</metadata_license>
+ 	<project_license>GPL-2.0-only</project_license>
+   
+-- 
+2.53.0
+

@@ -69,11 +69,6 @@
 		},
 		{
 			"name": "linuxdcpp",
-			"sources": [{
-					"type": "archive",
-					"url": "http://pypyrev.com/download/linuxdcpp-1.1.0.1.tgz",
-					"sha256": "b51c552e7fd9ed79c9ffa1469de6890593fd6678d3a89964876820437e6d7905"
-				}],
 			"buildsystem": "cmake-ninja",
 			"build-options": {
 				"env": {
@@ -82,7 +77,15 @@
 			},
 			"post-install": [
 				"install -Dp -m 644 data/com.pypyrev.linuxdcpp.appdata.xml /app/share/metainfo/com.pypyrev.linuxdcpp.appdata.xml"
-			]
+			],
+			"sources": [{
+					"type": "archive",
+					"url": "http://pypyrev.com/download/linuxdcpp-1.1.0.1.tgz",
+					"sha256": "b51c552e7fd9ed79c9ffa1469de6890593fd6678d3a89964876820437e6d7905"
+				},{
+					"type": "patch",
+					"path": "fix-appdata.patch"
+				}]
 		}
 	]
 }
