@@ -1,51 +1,60 @@
 {
 	"app-id": "com.pypyrev.linuxdcpp",
 	"runtime": "org.freedesktop.Platform",
-	"runtime-version": "23.08",
+	"runtime-version": "25.08",
 	"sdk": "org.freedesktop.Sdk",
 	"command": "linuxdcpp",
+	"rename-desktop-file": "linuxdcpp.desktop",
+	"rename-icon": "linuxdcpp",
 	"finish-args": [
 		"--socket=x11",
 		"--share=ipc",
 		"--share=network",
 		"--filesystem=host"
 	],
-	"rename-desktop-file": "linuxdcpp.desktop",
-	"rename-icon": "linuxdcpp",
+	"cleanup": [
+		"/include",
+		"/lib/cmake",
+		"/lib/libboost*",
+		"/lib/pkgconfig",
+		"/share/aclocal",
+		"/share/doc",
+		"/share/gtk-doc",
+		"/share/man",
+		"*.la",
+		"*.a"
+	],
 	"modules": [
 		"shared-modules/gtk2/gtk2.json",
 		{
 			"name": "boost",
 			"sources": [{
 					"type": "archive",
-					"url": "https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.bz2",
+					"url": "https://archives.boost.io/release/1.83.0/source/boost_1_83_0.tar.bz2",
 					"sha256": "6478edfe2f3305127cffe8caf73ea0176c53769f4bf1585be237eb30798c3b8e"
 				}],
 			"buildsystem": "simple",
 			"build-commands": [
 				"./bootstrap.sh --prefix=${FLATPAK_DEST}",
 				"./b2 -j$FLATPAK_BUILDER_N_JOBS install"
-			],
-			"cleanup": ["/include"]
+			]
 		},
 		{
-			"name": "libnotify",
-			"sources": [{
-					"type": "archive",
-					"url": "https://github.com/GNOME/libnotify/archive/refs/tags/0.7.9.tar.gz",
-					"sha256": "9bd4f5fa911d27567e7cc2d2d09d69356c16703c4e8d22c0b49a5c45651f3af0"
-				}],
-			"buildsystem": "meson",
-			"build-options": {
-				"config-opts": [
-				"-Dman=false",
-				"-Dgtk_doc=false"
-			]
-			},
-			"cleanup": ["/include"]
+			"name": "libxml2",
+			"config-opts": [
+				"--without-python"
+			],
+			"sources": [
+					{
+						"type": "archive",
+						"url": "https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.9.tar.xz",
+						"sha256": "a2c9ae7b770da34860050c309f903221c67830c86e4a7e760692b803df95143a"
+					}
+				]
 		},
 		{
 			"name": "libglade2",
+			"buildsystem": "autotools",
 			"sources": [{
 					"type": "archive",
 					"url": "https://download.gnome.org/sources/libglade/2.6/libglade-2.6.4.tar.bz2",
@@ -56,17 +65,10 @@
 					"commands": [
 						"cp -p /usr/share/automake-*/config.{sub,guess} ."
 					]
-				}],
-			"buildsystem": "autotools",
-			"cleanup": ["/include"]
+				}]
 		},
 		{
 			"name": "linuxdcpp",
-			"sources": [{
-					"type": "archive",
-					"url": "http://pypyrev.com/download/linuxdcpp-1.1.0.1.tgz",
-					"sha256": "b51c552e7fd9ed79c9ffa1469de6890593fd6678d3a89964876820437e6d7905"
-				}],
 			"buildsystem": "cmake-ninja",
 			"build-options": {
 				"env": {
@@ -75,7 +77,15 @@
 			},
 			"post-install": [
 				"install -Dp -m 644 data/com.pypyrev.linuxdcpp.appdata.xml /app/share/metainfo/com.pypyrev.linuxdcpp.appdata.xml"
-			]
+			],
+			"sources": [{
+					"type": "archive",
+					"url": "http://pypyrev.com/download/linuxdcpp-1.1.0.1.tgz",
+					"sha256": "b51c552e7fd9ed79c9ffa1469de6890593fd6678d3a89964876820437e6d7905"
+				},{
+					"type": "patch",
+					"path": "fix-appdata.patch"
+				}]
 		}
 	]
 }
